@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="icon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>团队周榜</title>
+    <style>
+        body {margin:0;}
+        
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        
+        li {
+            float: left;
+        }
+        
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+        
+        .active {
+            background-color: #46e679;
+        }
+        </style>
+    <style>/*基础设定*/
+        .wrap {
+            margin: 100 auto;
+            position: relative;
+            padding-top: 100rpx;
+        }
+        #left {
+            flex-direction: column;
+            width: 1000px;
+            height: 1000px;
+            background-image: linear-gradient(rgb(172, 206, 212),rgb(2, 71, 93));
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 10px 5px 5px rgb(0, 0, 0);
+        }
+
+        #right {
+            flex-direction: column;
+            width: 450px;
+            height: 750px;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        #title1 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            padding-left: 1ch;
+        }
+
+        #title2 {
+            color: #000;
+            font-size: 2.3rem;
+            font-weight: bold;
+            padding-left: 2ch;
+            padding-top: 20px;
+        }
+
+        .container1 {
+            padding-left: 1rem;
+        }
+
+        .container2 {
+            display: inline-block;
+            padding-top: 1rem;
+            padding-left: 3rem;
+
+        }
+
+        .top {/**/
+            font-size: 20px;
+            margin-left: 120px;
+            position: relative;
+            font-weight: bold;
+        }
+
+        
+        header{
+            background-image:linear-gradient(rgb(172, 206, 212),rgb(2, 71, 93));
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            position:absolute;
+            z-index:7;
+        }
+
+
+        .content {
+            margin-left: 120px;
+            position: relative;
+        }
+
+        .box {
+            display: flex;
+            margin: 20px 0;
+        }
+
+        .box img {
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 10px 10px 5px rgb(255, 0, 0);
+        }
+
+        .box .txt {
+            margin-left: 20px;
+        }
+        .box .tags {
+            font-size: 5px;
+            color: rgb(161, 47, 47);
+        }
+        .number {
+            color: #eb7350;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .badge1 {/*top数据*/
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #ee0808;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+        .badge2 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #e25017;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+        .badge3 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #c7724b;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+        .badge4 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #e29b58;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+        .badge5 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #d6a16c;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+
+        .badge6 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #b49e88;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+
+        .badge7 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #c6b7a9;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+
+        .badge8 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #aca299;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+
+        .badge9 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #c5c5c5;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+
+        .badge10 {
+            width: 44px;
+            height: 16px;
+            color: #fff;
+            background: #c2c2c2;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 16px;
+            overflow: hidden;
+            font-weight: normal;
+        }
+            /*特殊标签,热/新/沸/独家*/
+        .hot {
+            width: 24px;
+            height: 24px;
+            color: #fff;
+            background: #ff5500;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 18px;
+            font-weight: bold;
+        }
+
+        .fei {
+            width: 24px;
+            height: 24px;
+            color: #fff;
+            background: #ff0000;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 18px;
+            font-weight: bold;
+        }
+
+        .own {
+            width: 24px;
+            height: 24px;
+            color: #fff;
+            background: #b879e2;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 18px;
+            font-weight: bold;
+        }
+
+        .new {
+            width: 24px;
+            height: 24px;
+            color: #fff;
+            background: #cae381b8;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 18px;
+            font-weight: bold;
+        }
+
+        
+        .topic {
+            font-size:20px;
+            font-weight: bold;
+            margin-bottom:8px;
+        }
+
+        .subtitle {
+            width: 310px;
+            color: #000;
+            font-size: 20px;
+            margin-top:3px;
+            margin-left: 3px;
+            word-break: break-all;
+            text-overflow: ellipsis;/**显示省略号**/
+            display: -webkit-box; /* 将对象作为伸缩盒子模型显示 */      
+            -webkit-box-orient: vertical; /* 设置或检索伸缩盒对象的子元素的排列方式 */
+            -webkit-line-clamp: 8; /** 显示的行数 **/
+            overflow: hidden;  /** 隐藏超出的内容 **/
+        }
+        
+    </style>
+</head>
+
+<body>
+
+
+    <header>
+        <div class="main">
+            <ul>
+                <li ><a href="index.html">首页</a></li>
+                <li><a href="board.html" target="_blank">留言板</a></li>
+                <li><a href="news.html" target="_blank">新闻</a></li>
+                <li class="active"><a href="teamWeekly.html" target="_blank">团队<span style="color: crimson;">周榜</span></a></li>
+                <li><a href="about.html" target="_blank">关于</a></li>
+                <li><a href="support.html" target="_blank">赞助</a></li>
+            </ul>
+        </div>
+    </header>
+
+
+
+    <div class="wrap">
+        <div id="left">
+            <p id="title1">周榜2023.1.23--1.29</p>
+            <div class="container1">
+               
+
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge1">TOP1</span>
+                            <span class="topic" style="color:red">七趁播放量突破1.3亿</span>
+                            <div  class="fei">沸</div>
+                            <span class="number">2.03</span></span>热度值
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge2">TOP2</span>
+                            <span class="topic" style="color:red">团长宣布</span>
+                            <span class="subtitle"> 如果在26号前主团人数达到400人,随机奖励20.23元 </span>
+                            <div  class="own">独</div>
+                            <span class="number">1.29</span></span>热度值
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge3">TOP3</span>
+                            <span class="topic" style="color:red">团队宣布正式走出低谷期</span>
+                            <div  class="hot">热</div>
+                            <span class="number">1.16</span></span>热度值
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge4">TOP4</span>
+                            <span class="topic" style="color:red">颜汐team和七趁team相互问好</span>
+                            <br>
+                            <span class="number">1.05</span></span>热度值
+                    </div>
+                </div>
+                
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge5">TOP5</span>
+                            <span class="topic" >无处不在的蛋仔派对</span>
+                            <br>
+                            <span class="number">0.91</span></span>热度值
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge6">TOP6</span>
+                            <span class="topic">团队最近人力还不错</span>
+                            <br>
+                            <span class="number">0.77</span></span>热度值
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge7">TOP7</span>
+                            <span class="topic">团长强调团员必须再活跃些</span>
+                            <br>
+                            <span class="number">0.69</span></span>热度值
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge8">TOP8</span>
+                            <span class="topic">七趁Team步入正轨</span>
+                            <br>
+                            <span class="number">0.62</span></span>热度值
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge9">TOP9</span>
+                            <span class="topic">蝌烦半夜池塘索青蛙</span>
+                            <br>
+                            <span class="number">0.53</span></span>热度值
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="txt">
+                        <span class="badge10">TOP10</span>
+                            <span class="topic">团队开通网页啦</span>
+                            <br>
+                            <span class="number">0.44</span></span>热度值
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body> 

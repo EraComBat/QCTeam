@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赞助</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            font-family: "点阵";
+        }
+
+        body,input,i,a{
+			padding:0;
+			margin:0;
+			text-decoration: none;
+			outline: none;
+			font-size: 0.12rem;
+		}
+        
+        header{
+            background-image:linear-gradient(rgb(172, 206, 212),rgb(2, 71, 93));
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+    
+        .ico{
+            padding:10%;
+        }
+        
+        ul{
+            float: left;
+            list-style-type: none;
+            margin: 15px;
+        }
+        ul li{
+            display: inline-block;
+        }
+    
+        ul li a{
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            padding: 5px 20px;
+            border: 1px solid transparent;
+            transition: all 1s ease-out;
+            border-radius: 20px;
+        }
+    
+        ul li a:hover{
+            background-color: rgba(113, 232, 127, 0.52);
+            color: #000;
+        }
+        ul li.active a{
+            background-color: rgb(75, 221, 136);
+            color: #000;
+        }
+        .title{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+        .title h1{
+            color: #fff;
+            font-size: 70px;
+            font-family: Century Gothic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="main">
+            <ul>
+                <li><a href="#">首页</a></li>
+                <li><a href="http://www.baidu.com" target="_blank">留言板</a></li>
+                <li><a href="https://www.china.com" target="_blank">新闻</a></li>
+                <li><a href="teamWeekly.html" target="_blank">团队<span style="color: crimson;">周榜</span></a></li>
+                <li><a href="https://www.china.com" target="_blank">关于</a></li>
+                <li class="active"><a href="https://www.china.com" target="_blank">赞助</a></li>
+            </ul>
+        </div>
+        <div class="title">
+        
+            您确定要赞助吗?
+            <a href="http://www.baidu.com" target="_blank">我要赞助!</a>
+            <a href="http://www.baidu.com" target="_blank">我点错了!</a>
+
+        </div>
+    </header>
+    <div class="footer">
+        <div class="option  shouye">
+        
+            <i class="fa fa-home"></i>
+            <div class="list"></div>
+     
+            
+        </div>
+         <div class="option">
+            <i class="fa fa-th-large"></i>
+              <div class="list"></div>
+        </div>
+         <div class="option">
+      <i class="fa fa-list-ul"></i>
+            <div class="list"></div>
+        </div>
+         <div class="option">
+            <i class="fa fa-user-o"></i>
+            <div class="list"></div>
+        </div>
+          
+   
+      </div>
+    <script>
+        function autoSize(){
+ 
+ // 获取当前浏览器的视窗宽度，放在w中
+  
+ var w = document.documentElement.clientWidth;
+  
+ // 计算实际html font-size大小
+  
+ var size = w * 100 / 375 ;
+  
+ // 获取当前页面中的html标签
+  
+ var html = document.querySelector('html');
+  
+ // 设置字体大小样式
+  
+ html.style.fontSize = size + 'px';
+  
+ }
+    </script>
+</body>
+</html>
