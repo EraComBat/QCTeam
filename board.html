@@ -1,271 +1,192 @@
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<title>留言板</title>
-		<script src="./js/global.js" type="module" charset="utf-8"></script>
-		<link rel="stylesheet/less" href="./css/index.less">
-		<style>
-		body {margin:0;}
+<!DOCTYPE html>
+ 
+<html lang="en">
+ 
+<head>
+	<body background="board.jpg"style=" background-repeat:no-repeat ;background: size 120% 120%;
+	background-attachment: fixed;">
+	<style type="text/css">
+        <!--
+        .STYLE1 {
+            font-size: 12px;
+            color: #663300;
+            font-weight: bold;
+        }
+        -->
+    
+    </style>
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            font-family: "点阵";
+        }
+
+        body,input,i,a{
+			padding:0;
+			margin:0;
+			text-decoration: none;
+			outline: none;
+			font-size: 0.12rem;
+		}
         
-			ul {
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-				overflow: hidden;
-				background-color: #333;
-				position: fixed;
-				top: 0;
-				width: 100%;
-			}
-			
-			li {
-				float: left;
-			}
-			
-			li a {
-				display: block;
-				color: white;
-				text-align: center;
-				padding: 14px 16px;
-				text-decoration: none;
-			}
-			
-			li a:hover:not(.active) {
-				background-color: #111;
-			}
-			
-			.active {
-				background-color: #46e679;
-			}
-			</style>
-	</head>
-	<body>
-		<header>
-			<div class="main">
-				<ul>
-					<li ><a href="/index.html">首页</a></li>
-					<li class="active"><a href="#" target="_blank">留言板</a></li>
-					<li><a href="/news.html" target="_blank">新闻</a></li>
-					<li><a href="/teamWeekly.html" target="_blank">团队<span style="color: crimson;">周榜</span></a></li>
-					<li><a href="/about.html" target="_blank">关于</a></li>
-					<li><a href="/support.html" target="_blank">赞助</a></li>
-				</ul>
-			</div>
-		</header>
-				<!-- searchbox -->
-				<!-- usercontrol -->
-				<div class="inner">
-					<div class="usercontrol" v-if="isLogin">
-						<div class="avatar">
-							<img src="./static/img/icon.png" alt="avatar" height="45">
-
-							<div class="dropBox">
-								<ul v-for="(item,index) in dropList">
-									<li @click="liBtn(index+1)"></li>
-								</ul>
-							</div>
-
-						</div>
-						<div class="alarm">
-							<img src="static/img/alarm.svg" alt="alm" height="30">
-						</div>
-						<div class="msg">
-							<img src="./static/img/msg.png" alt="msg" height="30">
-						</div>
-					</div>
-					<div class="usercontrol" v-else>
-						<div class="loginBtn" @click="href('./pages/login.html')">
-							<div class="btnText">登 录</div>
-						</div>
-					</div>
-
-				</div>
-
-
-			</header>
-
-			<!-- 页面内容 -->
-			<div class="container">
-				<section>
-					<div class="head">
-					<div class="containbox">
-						<div class="card" v-for="(item, index) in reviewList">
-							<div class="drawarea">
-								<div class="top">
-									<img :src="item.avatar" alt="" class="avatar">
-									<p class="nickname">{{item.nickname}}</p>
-								</div>
-								<div class="content" style="font-size: 20px; padding: 10px;">
-									{{item.context}}
-								</div>
-								<div class="actions">
-									<div style="display: flex; ">
-
-										<div class="iconItem" @click="Like(index)" v-if="item.islike" style="color: #f1543a;">
-											<div class="icon">
-												&#xe601;
-											</div>
-											<p class="text">{{item.like}}</p>
-										</div>
-										<div class="iconItem" @click="Like(index)" v-else>
-											<div class="icon">
-												&#xe600;
-											</div>
-											<p class="text">{{item.like}}</p>
-										</div>
-									</div>
-
-									<div>
-										<div class="iconItem" @click="Comment(index)">
-											<div class="icon">
-												&#xe609;
-											</div>
-											<p class="text">{{item.comment}}</p>
-										</div>
-									</div>
-								</div>
-								<div class="commentbox" v-show="showIndex==index">
-									<div class="title">
-										{{item.comment}}条评论
-									</div>
-									<div class="subTitle">
-										精选评论 ({{item.comment==0?0:item.comment-1}})
-									</div>
-									<div class="commentList" v-for="(citem,index) in item.comment-1">
-										<div class="c-userinfo">
-											<div class="avatar">
-												<img src="./static/img/icon.png" alt="avatar" height="30">
-											</div>
-											<div class="username">
-												昵称{{index+1}}
-											</div>
-										</div>
-
-										<div class="c-context">
-											评论内容{{index+1}}
-										</div>
-									</div>
-									<a class="moreComment" @click="href('./pages/moreComment.html?id='+item.id)">
-										浏览更多评论…
-									</a>
-								</div>
-							</div>
-						</div>
-						<div class="no-more">
-							热评到底了~
-						</div>
-					</div>
-				</section>
-				<aside>
-				</aside>
-			</div>
-		</div>
-
-	</body>
-
-
-	<script type="module">
-		import review from './data/review.js'
-		import user from './data/userData.js'
-		const app = new Vue({
-			el: '#app',
-			data: {
-				userData:{
-					nickname:'',
-					email:'',
-					pw:'',
-				},
-				isLogin:false,
-				reviewList:[],
-				showIndex:-1,
-				dropList:[
-					{
-						text:'我的信息',
-						href:'',
-					},
-					{
-						text:'退出登录',
-						href:'',
-					}
-				],
-				starList:[],
-			},
-			mounted(){
-				console.log(localStorage.getItem("isLogin"))		
-				if(localStorage.getItem("isLogin")=="false"||localStorage.getItem("isLogin")==null){
-					this.isLogin = false
-				}else{
-					this.isLogin = true
-				}
-				this.reviewList = review.List
-				if(this.isLogin){
-					this.userData.nickname = localStorage.getItem("username")
-					this.userData.email = localStorage.getItem("email")
-					this.userData.pw = btoa(localStorage.getItem("pw"))
-					this.countStar()
-				}
-			},
-			methods:{
-				Like(index){
-					if(!this.isLogin){
-						let res = confirm("登录后即可点赞~是否现在登录？")
-						if(res){
-							location.href='./pages/login.html'
-						}
-						return
-					}
-					if(this.reviewList[index].islike){
-						this.reviewList[index].like--;
-						this.reviewList[index].islike = !this.reviewList[index].islike
-					}else{
-						this.reviewList[index].like++;
-						this.reviewList[index].islike = !this.reviewList[index].islike
-					}
-				},
-				Comment(index){
-					if(!this.isLogin){
-						let res = confirm("登录后即可评论~是否现在登录？")
-						if(res){
-							location.href='./pages/login.html'
-						}
-						return
-					}
-					if(this.showIndex==index)this.showIndex=-1
-					else
-					this.showIndex = index
-				},
-				liBtn(option){
-					switch(option){
-						case 1:
-							console.log(this.starList)
-							let starList = JSON.stringify(this.starList)
-							localStorage.setItem("starList",starList)
-							this.href("./pages/myStar.html")
-						break;
-						case 2:
-							alert(
-								'用户名：'+this.userData.nickname+
-								'\n邮箱：'+this.userData.email+
-								'\n加密密码：'+this.userData.pw
-							)
-						break;
-						case 3:
-							let res = confirm('确认要退出登录吗？')
-							if(res){
-								this.isLogin = false
-								localStorage.setItem('isLogin',false)
-							}
-						break;
-						default:
-						break;
-					}
-					
-				},
-				
-			}
-			
-			
-		})
-		
+        
+    
+        .ico{
+            padding:10%;
+        }
+        
+        ul{
+            float: left;
+            list-style-type: none;
+            margin: 15px;
+        }
+        ul li{
+            display: inline-block;
+        }
+    
+        ul li a{
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            padding: 5px 20px;
+            border: 1px solid transparent;
+            transition: all 1s ease-out;
+            border-radius: 20px;
+        }
+    
+        ul li a:hover{
+            background-color: rgba(113, 232, 127, 0.52);
+            color: #000;
+        }
+        ul li.active a{
+            background-color: rgb(75, 221, 136);
+            color: #000;
+        }
+        .title{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+        .title h1{
+            color: #fff;
+            font-size: 70px;
+            font-family: Century Gothic;
+        }
+    </style>
+ 
+    <meta charset="UTF-8">
+	<script>
+		function myfunction()
+		  {
+			  var x="发送成功"
+				document.getElementById("demo").innerHTML=x;
+		   }
 	</script>
+         <title>留言板</title>
+ 
+         <link rel="stylesheet" id="templatecss" type="text/css" href="css/basic-grey.css">
+ 
+</head>
+ 
+<body>
+	<header>
+        <div class="main">
+            <ul>
+                <li ><a href="index.html">首页</a></li>
+                <li><a href="board.html" target="_blank">留言板</a></li>
+                <li><a href="news.html" target="_blank">新闻</a></li>
+                <li class="active"><a href="teamWeekly.html" target="_blank">团队<span style="color: crimson;">周榜</span></a></li>
+                <li><a href="support.html" target="_blank">赞助</a></li>
+            </ul>
+        </div>
+    </header>
+ 
+         <form action="" method="post" class="basic-grey">
+ 
+                 <h1>留言板
+ 
+                          <span>请输入文本以向我们留言</span>
+ 
+                 </h1>
+ 
+                 <label>
+ 
+                        
+                          </select>
+ 
+                 </label>
+ 
+                 <label>
+ 
+                          <span>昵称:</span>
+ 
+                          <input id="name" type="text" name="name" placeholder="在此输入" />
+ 
+                 </label>
+ 
+                 <label>
+ 
+                          <span>电子邮箱:</span>
+ 
+                          <input id="email" type="email" name="email" placeholder="格式为昵称@QCTeam.io" />
+ 
+                 </label>
+ 
+ 
+ 
+                 <label>
+ 
+                          <span>留言</span>
+ 
+                          <textarea id="message" name="message" placeholder="在此输入"></textarea>
+ 
+                 </label>
+ 
+                 <label>
+ 
+                          <span>发送给:</span><select name="selection">
+ 
+                                   <option value="server">服务器待处理</option>
+ 
+                                   <option value="me">网站管理员</option>
+ 
+                          </select>
+ 
+                 </label>
+ 
+                 <label>
+ 
+                          <span>&nbsp;</span>
+ 
+                          <button onclick="myfunction()">发送</button>
+
+ 
+                 </label>
+ 
+         </form>
+ 
+         <script>
+ 
+                 function changeStyle() {
+ 
+            var template = document.getElementById("template");
+ 
+     var index = template.selectedIndex;
+ 
+            var templatevalue = template.options[index].value;
+ 
+            var templatecss = document.getElementById("templatecss");
+ 
+            templatecss.setAttribute("href","css/" + templatevalue + ".css");
+ 
+            document.getElementsByTagName("form")[0].setAttribute("class",templatevalue);
+ 
+          }
+ 
+         </script>
+ 
+</body>
+ 
 </html>
